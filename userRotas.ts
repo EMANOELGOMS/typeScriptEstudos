@@ -31,7 +31,6 @@ rotas.get('/users', (req: Request, res: Response) => {
 })
 
 rotas.post('/user/addUser', (req: Request, res: Response) => {
-console.log('chegou')
     try {
 
         let novoUsuario = req.body;
@@ -40,6 +39,8 @@ console.log('chegou')
         if (!novoUsuario.nome) {
             throw new Error('Nome obrigatório!')
         }
+
+        console.log('ai que cuzinho')
         //Validando se o nome do usuário tem  mais de 3 caracteres
         if ((novoUsuario.nome as string).length < 4) {
             throw new Error('O tamanho do Nome deve ser maior ou igual a 4 caracteres!')
@@ -68,7 +69,7 @@ console.log('chegou')
         }
     } catch (error: unknown) {
         if (error instanceof Error) {
-            res.status(500).send({ error: error.message });
+            res.status(500).send({ message: error.message });
         } else {
             res.status(500).send({ error: 'Ocorreu um erro desconhecido' });
         }
