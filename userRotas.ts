@@ -21,7 +21,6 @@ let user: User[] = [{
 }
 ]
 
-
 rotas.get('/users', (req: Request, res: Response) => {
     try {
         res.json(user)
@@ -32,27 +31,28 @@ rotas.get('/users', (req: Request, res: Response) => {
 })
 
 rotas.post('/user/addUser', (req: Request, res: Response) => {
-
+console.log('chegou')
     try {
+
         let novoUsuario = req.body;
 
         //Validado o nome do usuário está sendo passado
         if (!novoUsuario.nome) {
-            return res.status(400).json({ message: "Nome é obrigatório!" });
+            throw new Error('Nome obrigatório!')
         }
         //Validando se o nome do usuário tem  mais de 3 caracteres
         if ((novoUsuario.nome as string).length < 4) {
-            return res.status(400).json({ message: "O tamanho do Nome deve ser maior ou igual a 4 caracteres!" });
+            throw new Error('O tamanho do Nome deve ser maior ou igual a 4 caracteres!')
         }
 
         // Validando se o e-mail é valido
         if (!emailValidator(novoUsuario.email)) {
-            return res.status(400).json({ message: 'E-mail inválido!' });
+            throw new Error('E-mail inválido!')
  
         }
         //validando se o e-mail já existe no banco de dados
         if (!novoUsuario.email) {
-            return res.status(400).json({ message: "E-mail é obrigatório!" });
+            throw new Error('Email é obrigatório!')
         }
 
         // verifica se o usuário ja existe no array
@@ -66,9 +66,12 @@ rotas.post('/user/addUser', (req: Request, res: Response) => {
         } else {
             return res.status(409).send({ msg: "Este e-mail já existe!" })
         }
-    } catch (error) {
-        return res.status(500).send({ msg: "Erro interno no servidor." })
-
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            res.status(500).send({ error: error.message });
+        } else {
+            res.status(500).send({ error: 'Ocorreu um erro desconhecido' });
+        }
     }
 
     // try {
@@ -90,7 +93,6 @@ rotas.post('/user/addUser', (req: Request, res: Response) => {
     //     return res.status(400).send({ e });
     // }
 })
-
 module.exports = rotas;
 
 // InterfacePersonalizada<Array<User>>
