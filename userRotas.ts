@@ -40,7 +40,6 @@ rotas.post('/user/addUser', (req: Request, res: Response) => {
             throw new Error('Nome obrigatório!')
         }
 
-        console.log('ai que cuzinho')
         //Validando se o nome do usuário tem  mais de 3 caracteres
         if ((novoUsuario.nome as string).length < 4) {
             throw new Error('O tamanho do Nome deve ser maior ou igual a 4 caracteres!')
@@ -67,8 +66,9 @@ rotas.post('/user/addUser', (req: Request, res: Response) => {
         } else {
             return res.status(409).send({ msg: "Este e-mail já existe!" })
         }
-    } catch (error: unknown) {
-        if (error instanceof Error) {
+    } catch (error: unknown) {// aqui esta capturando um erro genérico
+
+        if (error instanceof Error) { // esse if esta  verificando se o erro é uma instancia da classe error
             res.status(500).send({ message: error.message });
         } else {
             res.status(500).send({ error: 'Ocorreu um erro desconhecido' });
