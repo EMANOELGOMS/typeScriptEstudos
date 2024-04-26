@@ -75,24 +75,6 @@ rotas.post('/user/addUser', (req: Request, res: Response) => {
         }
     }
 
-    // try {
-    //     let novoUsuario = req.body as User; // "as User" este comando  é para dizer que o corpo da requisição vem em formato de um objeto
-    //     console.log(novoUsuario);
-    //     // se não tiver esses campos preenchidos retorna erro
-    //     if (novoUsuario.nome.trim() || novoUsuario.email.trim()) console.log('piroca')
-
-    //     const id = Math.floor(Math.random() * 9999 + 1) // aqui gera um novo ID para o novo Usuário
-    //     novoUsuario = { ...novoUsuario, id }; // esse comandado serve para adicionar o ID gerado na criação do novo usuario
-    //     user.push(novoUsuario)
-    //     console.log(`usuario ${novoUsuario.id} adicionado`)
-    //     return res.status(201).send(novoUsuario)
-
-
-    //     //if (!novoUsuario.email || !novoUsuario.nome) throw new Error("Campos obrigatórios não preenchidos")
-
-    // } catch (e) {
-    //     return res.status(400).send({ e });
-    // }
 })
 module.exports = rotas;
 
